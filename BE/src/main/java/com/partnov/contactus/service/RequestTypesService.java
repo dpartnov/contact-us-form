@@ -6,14 +6,20 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import com.partnov.contactus.repository.RequestTypesRepository;
 
+/**
+ * Service class for working with {@link RequestTypes} data.
+ */
 @Service
 public class RequestTypesService {
-    
+
     @Autowired
-    private RequestTypesRepository customerRepository;
-    
+    private RequestTypesRepository requestTypesRepository;
+
+    /*
+    * Get all request types from DB.
+     */
     public List<RequestTypes> getAll() {
-        return customerRepository.findAll();
+        return requestTypesRepository.findAll();
     }
-    
+
 }
