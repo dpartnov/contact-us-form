@@ -1,4 +1,4 @@
-package com.partnov.contactus;
+package com.partnov.contactus.test;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import org.junit.jupiter.api.Test;
@@ -13,9 +13,12 @@ import org.springframework.boot.test.context.SpringBootTest.WebEnvironment;
 import org.springframework.boot.test.web.client.TestRestTemplate;
 import org.springframework.boot.web.server.LocalServerPort;
 
+/**
+ * Request types tests.
+ */
 @RunWith(SpringRunner.class)
 @SpringBootTest(classes = StartUpApplication.class, webEnvironment = WebEnvironment.RANDOM_PORT)
-public class RequestTypesRepositoryTest {
+public class RequestTypesTest {
     private static final String LOCAL_URL = "http://localhost:";
     
     @Autowired
@@ -34,7 +37,7 @@ public class RequestTypesRepositoryTest {
 
     @Test
     public void requestTypesRestTest() throws Exception {
-        assertThat(this.restTemplate.getForObject(LOCAL_URL + port + "/api/v1/requests/",
+        assertThat(this.restTemplate.getForObject(LOCAL_URL + port + "/api/v1/requests/types",
                 String.class)).contains(Arrays.asList("Contract Adjustment", "Damage Case", "Complaint"));
     }
 
