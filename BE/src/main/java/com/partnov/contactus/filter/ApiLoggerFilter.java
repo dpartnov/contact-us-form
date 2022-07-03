@@ -1,4 +1,4 @@
-package com.partnov.contactus.controller;
+package com.partnov.contactus.filter;
 
 import java.io.IOException;
 import javax.servlet.Filter;

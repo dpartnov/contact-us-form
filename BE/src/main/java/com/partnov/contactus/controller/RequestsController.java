@@ -18,7 +18,7 @@ import org.springframework.web.bind.annotation.RestController;
  *  REST controller for Requests.
  * 
  */
-@CrossOrigin(origins = "http://localhost:3000", maxAge = 3600)
+@CrossOrigin(origins = "${frontend.url}", maxAge = 3600)
 @RestController
 @RequestMapping("/requests")
 public class RequestsController {

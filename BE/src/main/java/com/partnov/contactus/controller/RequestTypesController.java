@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.RestController;
 /**
  * REST Controller for Request type entity.
  */
-@CrossOrigin(origins = "http://localhost:3000", maxAge = 3600)
+@CrossOrigin(origins = "${frontend.url}", maxAge = 3600)
 @RestController
 @RequestMapping("/requests/types")
 public class RequestTypesController {
