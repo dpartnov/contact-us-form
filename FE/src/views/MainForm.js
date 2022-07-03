@@ -1,6 +1,7 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import { Helmet } from 'react-helmet'
 import './MainForm.css'
+import axios from 'axios';
 
 
 class Frame1 extends React.Component {
@@ -8,19 +9,36 @@ class Frame1 extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
+      collection: [],
       policyNumber: "",
       name: "",
       surname: "",
       requestText: "",
-      requestTypeId: "",
+      requestTypeId: 0,
     };
-    
+
     this.updatePolicy = this.updatePolicy.bind(this);
     this.updateName = this.updateName.bind(this);
     this.updateSurname = this.updateSurname.bind(this);
     this.updateRequestText = this.updateRequestText.bind(this);
     this.updateRequest = this.updateRequest.bind(this);
     this.sendRequest = this.sendRequest.bind(this);
+    this.sendNewRequest = this.sendNewRequest.bind(this);
+  }
+
+  componentDidMount() {
+    let initialTypes = [];
+    var targetUrl = 'http://localhost:8081/api/v1/requests/types';
+    fetch(targetUrl)
+      .then(response => {
+        return response.json();
+      }).then(data => {
+        initialTypes = data.map((type) => {
+          return type
+        });
+        console.log(initialTypes);
+        this.setState({ collection: initialTypes });
+      });
   }
 
   updatePolicy(event) {
@@ -38,17 +56,31 @@ class Frame1 extends React.Component {
   updateRequest(event) {
     this.setState({ requestTypeId: event.target.value });
   }
+
+  sendNewRequest() {
+    const data = {
+      requestTypeId: this.state.requestTypeId,
+      policyNumber: this.state.policyNumber,
+      name: this.state.name,
+      surname: this.state.surname,
+      message: this.state.requestText
+    };
+    axios.put('http://localhost:8081/api/v1/requests', data)
+      .then(response => {
+        console.log("Status: ", response.status);
+        console.log("Data: ", response.data);
+      }).catch(error => {
+        console.error(error);
+        alert("ERROR: " + error.response.data);
+      });
+
+  }
   sendRequest(event) {
-    console.log("Send request with params: \n"
-      + "policyNumber: " + this.state.policyNumber + "\n"
-      + "name: " + this.state.name + "\n"
-      + "surname: " + this.state.surname + "\n"
-      + "requestText: " + this.state.requestText + "\n"
-      + "requestTypeId: " + this.state.requestTypeId);
+    this.sendNewRequest();
   }
 
   render() {
-
+    let types = this.state.collection;
     return (
       <div className="frame1-container">
         <Helmet>
@@ -63,9 +95,11 @@ class Frame1 extends React.Component {
               <form onSubmit={this.handleSubmit}>
                 <label>
                   <select value={this.state.requestTypeId} onChange={this.updateRequest}>
-                    <option value="value 1">Value 1</option>
-                    <option value="value 2">Value 2</option>
-                    <option value="value 3">Value 3</option>
+                    {types.map(option => (
+                      <option key={option.id} value={option.id}>
+                        {option.label}
+                      </option>
+                    ))}
                   </select>
                 </label>
               </form>
