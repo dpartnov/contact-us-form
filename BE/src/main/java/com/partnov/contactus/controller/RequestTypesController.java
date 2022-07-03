@@ -7,14 +7,21 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+/**
+ * REST Controller for Request type entity.
+ */
 @RestController
-@RequestMapping("/requests")
+@RequestMapping("/requests/types")
 public class RequestTypesController {
     
     @Autowired
     private RequestTypesService service;
     
-    @GetMapping()
+    /**
+     * Get all request types.
+     * @return  ResponseEntity with List of {@link RequestTypes}
+     */
+    @GetMapping
     public ResponseEntity<Object> getAll() {
         return ResponseEntity.ok(service.getAll());
     }
